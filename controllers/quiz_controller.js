@@ -20,7 +20,7 @@ exports.index = function (req, res){
     res.render('quizes/index', {quizes: quizes});
 }).catch(function(error) { next(error);})
 };
-//get /quisez/:id
+//get /quizes/:id
 exports.show = function(req, res) {
     res.render('quizes/show', {quiz: req.quiz});
 };
@@ -31,7 +31,21 @@ exports.answer = function(req, res) {
     if (req.query.respuesta === req.quiz.respuesta) {
         resultado = 'Correcto';
     }
-    res.render('quisez/answer', {quiz: req.quiz, respuesta: resultado});
+    res.render('quizes/answer', {quiz: req.quiz, respuesta: resultado});
+};
+//get quizes/new
+exports.new = function(req, res) {
+    var quiz = models.Quiz.build(
+        {pregunta: "Pregunta", respuesta: "Respuesta"}
+    );
+    res.render('quizes/new', {quiz: quiz});
+};
+exports.create = function(req, res) {
+    var quiz = models.Quiz.build( req.body.quiz );
+    //guarda los campos de la pregunta
+    quiz.save({fields: ["pregunta", "respuesta"]}).then(function(){
+        res.redirect('/quizes')
+    })
 };
 
 //GET /quizes/answer
