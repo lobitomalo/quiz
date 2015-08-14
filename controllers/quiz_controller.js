@@ -1,5 +1,5 @@
 'use strict';
-var models = require('/models/models.js ');
+var models = require("../models/models.js");
 //Autoload
 exports.load = function(req, res, next, quizId){
     models.Quiz.find(quizId).then(
